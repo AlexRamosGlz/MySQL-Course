@@ -33,6 +33,11 @@ DROP PRIMARY KEY;
 
 ######### MODIFYG A COLUMN DATA TYPE ##########
 
+-- ALTER TABLE <table name>
+-- CHANGE <current_column_name> <new_column_name> <data_type>;
+
+-- ALTER TABLE <table_name>
+-- MODIFY <column_name> <data_type>;
 ALTER TABLE addresses 
 MODIFY id INT;
 
@@ -116,6 +121,24 @@ ALTER TABLE pets
 RENAME COLUMN animal_type TO species;
 
 #############################################################
+
+################ EXERCISE 4.1 ###############################
+
+ALTER TABLE pets
+ADD PRIMARY KEY (id);
+
+ALTER TABLE pets
+ADD CONSTRAINT FK_PetsPeople
+FOREIGN KEY (owner_id) REFERENCES people(id);
+
+ALTER TABLE people
+ADD COLUMN email varchar(20);
+
+ALTER TABLE people
+ADD CONSTRAINT u_email UNIQUE (email);
+
+ALTER TABLE pets
+RENAME COLUMN name TO first_name;
 
 DESCRIBE people;
 DESCRIBE addresses;
