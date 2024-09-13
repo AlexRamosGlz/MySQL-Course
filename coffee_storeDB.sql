@@ -19,7 +19,7 @@ CREATE TABLE orders (
     customer_id INT,
     order_time DATETIME,
     
-    -- Referencing child talbe to it's parent table
+    -- Referencing child table to it's parent table
     FOREIGN KEY(product_id) REFERENCES products(id),
     FOREIGN KEY(customer_id) REFERENCES customers(id)
 );
