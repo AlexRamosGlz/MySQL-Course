@@ -140,6 +140,11 @@ ADD CONSTRAINT u_email UNIQUE (email);
 ALTER TABLE pets
 RENAME COLUMN name TO first_name;
 
+ALTER TABLE addresses
+MODIFY postcode CHAR(7);
+
+#################################################################
+
 DESCRIBE people;
 DESCRIBE addresses;
 DESCRIBE pets;
