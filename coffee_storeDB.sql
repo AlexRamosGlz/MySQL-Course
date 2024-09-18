@@ -123,4 +123,10 @@ SELECT * FROM customers WHERE first_name LIKE '_O__';
 -- Order By
 
 SELECT * FROM products ORDER BY price ASC;
-SELECT DISTINCT last_name FROM customers ORDER BY last_name DESC;
+SELECT * FROM customers WHERE last_name = 'Bluth' 
+ORDER BY last_name, first_name;
+
+-- EXERCISE 6.3
+SELECT DISTINCT last_name FROM customers ORDER BY last_name;
+SELECT * FROM orders WHERE product_id = 3 LIMIT 4;
+SELECT name, price AS `retail price`, coffee_origin FROM products;
