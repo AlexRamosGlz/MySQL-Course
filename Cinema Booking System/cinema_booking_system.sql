@@ -60,7 +60,6 @@ CREATE TABLE reserverd_seat (
     FOREIGN KEY (seat_id) REFERENCES seats(id)
 );
 
-
 DESCRIBE films;
 DESCRIBE customers;
 DESCRIBE rooms;
@@ -68,5 +67,67 @@ DESCRIBE screenings;
 DESCRIBE seats;
 DESCRIBE bookings;
 DESCRIBE reserved_seat;
+
+/*
+	COUNT()
+    
+    this function returns the number of rows that matches a specified criterion.
+    
+    SELECT COUNT(<column_name>)
+	FROM <table_name>
+	WHERE <condition>;
+*/
+
+SELECT count(*) AS no_customers FROM customers;
+SELECT count(first_name) FROM customers;
+SELECT count(*) FROM customers WHERE last_name = "Smith";
+SELECT count(*) FROM customers WHERE first_name IS NULL;
+
+/*
+	SUM()
+    
+    this function returns the total sum of a numeric column.
+
+	SELECT SUM(<column_name>)
+	FROM <table_name>
+	WHERE <condition>;	
+*/
+
+SELECT sum(no_seats) AS all_cinemas_seats FROM rooms;
+SELECT sum(no_seats) FROM rooms WHERE id > 1;
+
+/*	
+	MIN()
+
+	Thisfunction returns the smallest value of the selected column.
+    
+	SELECT MIN(<column_name>)
+	FROM <table_name>
+	WHERE <condition>;	
+*/
+
+SELECT min(length_min) FROM films;
+
+/*
+	MAX()
+    
+	this function returns the largest value of the selected column.
+
+	SELECT MAX(<column_name>)
+	FROM <table_name>
+	WHERE <condition>;	
+*/
+
+SELECT MAX(length_min) FROM films;
+
+/*
+	AVG()
+    
+    this function returns the average value of a numeric column.
+    
+	SELECT AVG(<column_name>)
+	FROM <table_name>
+	WHERE <condition>;	
+*/
 
 SHOW TABLES;
