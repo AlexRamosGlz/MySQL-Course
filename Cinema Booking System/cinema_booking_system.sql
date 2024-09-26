@@ -289,4 +289,53 @@ SELECT substring(name, -3) as short_name FROM films;
 
 SELECT CONCAT(substring(first_name, 1, 3), " ",substring(last_name, 1, 3)) FROM customers;
 
+#####################################################################
+
+-- DATE() Function
+SELECT date('2023-09-22');
+SELECT date('2023-09-22 07:45:32');
+
+SELECT start_time FROM screenings;
+
+SELECT date(start_time) FROM screenings;
+
+SELECT * FROM screenings
+WHERE date(start_time) = '2023-07-08'; 
+
+SELECT * FROM screenings
+WHERE start_time = '2023-07-08'; -- ->  no start_time matches '2023-07-08'
+
+SELECT * FROM screenings
+WHERE date(start_time) BETWEEN '2023-07-08' AND '2023-09-09'; 
+
+-- MONTH() Funtion
+SELECT month('2023-09-22 07:45:32');
+
+SELECT MONTH(start_time) FROM screenings;
+
+SELECT * FROM screenings
+WHERE MONTH(start_time) = 8;
+
+SELECT MONTH(start_time), count(*) FROM screenings
+GROUP BY MONTH(start_time);
+
+-- YEAR() FUNCTION
+SELECT YEAR('2023-09-22');
+
+SELECT YEAR(start_time) FROM screenings;
+
+SELECT * FROM screenings
+WHERE YEAR(start_time) = '2023';
+
+SELECT YEAR(start_time), count(*) FROM screenings
+GROUP BY YEAR(start_time);
+
+########################### EXCERCISE 12.2 ##################################
+
+SELECT film_id, start_time FROM screenings
+WHERE DATE(start_time) = '2022-06-18';
+
+SELECT * FROM screenings
+WHERE DATE(start_time) BETWEEN '2023-03-06' AND '2023-03-13';
+
 SHOW TABLES;
