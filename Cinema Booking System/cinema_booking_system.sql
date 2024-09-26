@@ -51,7 +51,7 @@ CREATE TABLE bookings (
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
-CREATE TABLE reserverd_seat (
+CREATE TABLE reserved_seat (
 	id INT PRIMARY KEY AUTO_INCREMENT,
     booking_id INT NOT NULL,
     seat_id INT NOT NULL,
@@ -60,13 +60,7 @@ CREATE TABLE reserverd_seat (
     FOREIGN KEY (seat_id) REFERENCES seats(id)
 );
 
-DESCRIBE films;
-DESCRIBE customers;
-DESCRIBE rooms;
-DESCRIBE screenings;
-DESCRIBE seats;
-DESCRIBE bookings;
-DESCRIBE reserved_seat;
+
 
 /*
 	COUNT()
@@ -129,5 +123,74 @@ SELECT MAX(length_min) FROM films;
 	FROM <table_name>
 	WHERE <condition>;	
 */
+
+SELECT avg(length_min) FROM films;
+SELECT avg(length_min) FROM films WHERE length_min > 120;
+
+################################# Exercise 10.1 ######################################
+
+SELECT count(*) FROM bookings WHERE customer_id = 10;
+SELECT count(*) FROM screenings s INNER JOIN films f ON s.film_id = f.id WHERE f.name = 'Blade Runner' AND s.start_time BETWEEN  '2022-10-01' AND '2023-11-01';
+SELECT DISTINCT count(*) FROM bookings b INNER JOIN screenings s ON b.screening_id = s.id WHERE s.start_time BETWEEN  '2023-04-01' AND '2023-05-01';
+
+#######################################################################################
+
+/*
+	GROUP BY()
+    
+    The GROUP BY statement groups rows that have the same values into summary rows, like "find the number of customers in each country".
+	
+    SELECT <column_name(s)>
+	FROM <table_name>
+	WHERE <condition>
+	GROUP BY <column_name(s)>
+*/
+
+SELECT customer_id, screening_id, count(*) FROM bookings 
+GROUP BY customer_id, screening_id 
+ORDER BY customer_id;
+
+SELECT f.name, s.start_time, c.first_name, c.last_name, count(b.id) FROM films f 
+JOIN screenings s ON s.film_id = f.id
+JOIN bookings b ON b.screening_id = s.id
+JOIN customers c ON b.customer_id = c.id
+GROUP BY f.name, c.first_name, c.last_name, s.start_time
+ORDER BY s.start_time;
+
+/*	
+	HAVING
+
+	The HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions.
+    
+	SELECT <column_name(s)>
+	FROM <table_name>
+    WHERE <condition>
+	GROUP BY <column_name(s)>
+	HAVING <condition>
+	ORDER BY <column_name(s)>;		 
+*/
+
+SELECT customer_id, screening_id, count(*) FROM bookings
+GROUP BY customer_id, screening_id
+HAVING customer_id < 10
+ORDER BY customer_id;
+
+SELECT customer_id, screening_id, count(*) FROM bookings
+JOIN screenings ON bookings.screening_id = screenings.id
+WHERE  year(screenings.start_time) = '2022'
+GROUP BY customer_id, screening_id
+HAVING customer_id = 10;
+
+############################################### EXCERCISE 10.02 ##########################################
+
+
+
+DESCRIBE films;
+DESCRIBE customers;
+DESCRIBE rooms;
+DESCRIBE screenings;
+DESCRIBE seats;
+DESCRIBE bookings;
+DESCRIBE reserved_seat;
 
 SHOW TABLES;
