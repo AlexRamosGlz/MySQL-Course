@@ -130,4 +130,100 @@ SELECT MAX(length_min) FROM films;
 	WHERE <condition>;	
 */
 
+
+
+/*
+	Non-Correlated subquery
+    
+    In non-correlated query inner query does not dependent on the outer query. They both can run separately.
+*/
+
+-- subquerie in WHERE clause
+
+SELECT id, start_time FROM screenings 
+WHERE film_id IN (
+	SELECT id FROM films 
+    WHERE length_min > 120)
+ORDER BY start_time;
+
+SELECT first_name, last_name, email FROM customers
+WHERE id IN (
+	SELECT customer_id FROM bookings
+    WHERE screening_id = 1);
+    
+-- subquerie after FROM
+SELECT avg(no_seats), max(no_seats) FROM
+(SELECT booking_id, count(seat_id) AS no_seats FROM reserved_seat 
+GROUP BY booking_id) b;
+
+/*
+	Correlated subquery
+    
+    In correlated subquery, inner query is dependent on the outer query. Outer query needs to be executed before inner query
+*/
+
+SELECT screening_id, customer_id FROM bookings
+ORDER BY screening_id;
+
+SELECT screening_id, customer_id, 
+
+/*
+	This inner query is running multiple times, it's running for every 
+    single row that was returned by the outer query
+*/
+( SELECT count(*) FROM reserved_seat WHERE booking_id = b.id ) 
+
+as seats_per_booking
+FROM bookings b
+ORDER BY screening_id;
+
+########################### Excercise 11.1 #######################################
+
+SELECT name, length_min FROM films
+WHERE length_min >
+(SELECT avg(length_min) FROM films )
+ORDER BY length_min;
+
+SELECT max(no_screenings), min(no_screenings) FROM 
+( SELECT film_id, count(*) as no_screenings FROM screenings
+GROUP BY film_id ) f;
+
+SELECT *,
+	( SELECT count(*) FROM screenings
+    WHERE screenings.film_id = f.id) screenings_per_film
+ FROM films f
+ ORDER BY id;
+ 
+/*
+	MySQL Functions
+    
+    https://dev.mysql.com/doc/refman/8.4/en/string-functions.html
+*/
+
+-- CONCAT
+SELECT concat(first_name, ' ',last_name) as full_name FROM customers;
+
+
+/*
+	Substrings
+    
+    substring(string, start, length)
+*/
+SELECT substring("Example", 3, 3) as SUB; -- -> "amp"
+SELECT substring("Example", 3) as SUB; -- -> "ample"
+
+SELECT substring(name, 1, 5) AS short_name FROM films;
+SELECT substring(name, -6) AS short_name FROM films;
+
+-- Upper & Lower
+SELECT Upper(name) as caps FROM films;
+SELECT lower(name) as low FROM films;
+
+
+############################## Exercise 12.1 ########################
+
+SELECT substring(name, -3) as short_name FROM films;
+
+SELECT CONCAT(substring(first_name, 1, 3), " ",substring(last_name, 1, 3)) FROM customers;
+
 SHOW TABLES;
